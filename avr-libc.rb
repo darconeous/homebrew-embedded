@@ -5,7 +5,7 @@ class AvrLibc < Formula
   homepage 'http://www.nongnu.org/avr-libc/'
   md5 '54c71798f24c96bab206be098062344f'
 
-  depends_on 'larsimmisch/avr/avr-gcc'
+  depends_on 'avr-gcc'
 
   def install
     # brew's build environment is in our way

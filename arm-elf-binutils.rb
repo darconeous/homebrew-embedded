@@ -8,18 +8,32 @@ class ArmElfBinutils < Formula
 #  depends_on 'apple-gcc42' => :build
 
   def install
-    ENV['CC'] = 'gcc'
-    ENV['CXX'] = 'g++'
-    ENV['CPP'] = 'cpp'
-    ENV['LD'] = 'gcc'
+    ENV['CC'] = 'llvm-gcc-4.2'
+    ENV['CXX'] = 'llvm-g++-4.2'
+    ENV['CPP'] = 'llvm-cpp-4.2'
+    ENV['LD'] = 'llvm-gcc-4.2'
+
 	target = 'arm-none-eabi'
-    mkdir 'build' do
-      system '../configure', '--disable-nls', "--target=#{target}",
-                             '--enable-gold=yes','--disable-werror',
-                             "--prefix=#{prefix}"
+	target = 'arm-elf'
+	
+	args = [
+		'--disable-debug',
+		'--disable-nls',
+		'--disable-wwerror',
+        "--infodir=#{info}",
+        "--mandir=#{man}",
+		"--disable-install-libiberty",
+		"--enable-interwork",
+		"--enable-multilib",
+
+#		'--enable-gold=yes',
+	]
+    
+	mkdir 'build' do
+      system '../configure', "--target=#{target}", "--prefix=#{prefix}", *args
       system 'make all'
       system 'make install'
-#      FileUtils.mv lib, libexec
+	  FileUtils.rm_rf prefix/"lib/x86_64"
     end
   end
 

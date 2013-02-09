@@ -14,45 +14,100 @@ class ArmElfGcc < Formula
   def install
     binutils = Formula.factory 'arm-elf-binutils'
 
-	ENV['CC'] = 'gcc'
-    ENV['CXX'] = 'g++'
-    ENV['CPP'] = 'cpp'
-    ENV['LD'] = 'gcc'
+    ENV['CC'] = 'llvm-gcc-4.2'
+    ENV['CXX'] = 'llvm-g++-4.2'
+    ENV['CPP'] = 'llvm-cpp-4.2'
+    ENV['LD'] = 'llvm-gcc-4.2'
     ENV['PATH'] += ":#{binutils.prefix/"bin"}"
+	
 	target = 'arm-none-eabi'
+	target = 'arm-elf'
 
 	newlib = Formula.factory 'newlib'
 	dwnldr = newlib.downloader
 	dwnldr.fetch # fetch (uses cache!)
 	dwnldr.stage # unpack
 
-	system "ln","-s","#{Dir["newlib*"]}/newlib"
 	system "ln","-s","#{Dir["newlib*"]}/libgloss"
+	system "ln","-s","#{Dir["newlib*"]}/newlib"
 	
+	args = [
+		"--enable-obsolete",
+		'--disable-nls',
+		'--disable-wwerror',
+		'--disable-debug',
+		
+		"--enable-languages=c",	
+
+        "--enable-fpu",
+		"--enable-biendian",
+		"--enable-interwork",
+		"--enable-multilib",
+		"--with-newlib",
+
+		"--enable-version-specific-runtime-libs",
+        "--infodir=#{info}",
+        "--mandir=#{man}",
+		
+		"--without-included-gettext",
+		"--disable-install-libiberty",
+		"--disable-__cxa_atexit",
+		"--disable-libgfortran",
+		"--disable-libssb",
+		"--disable-shared",
+		"--disable-libstdcxx-pch",
+
+		# !?!?
+		"--with-as=#{binutils.prefix}/bin/#{target}-as",
+	]
+
 	mkdir 'build' do
-      system '../configure', '--disable-nls', "--target=#{target}",
-                             "--enable-languages=c",
-							"--without-included-gettext",
-							"--disable-__cxa_atexit",
-							"--enable-multilib",
-							"--enable-biendian",
-							"--disable-libgfortran",
-							"--disable-libssb",
-							"--disable-libstdcxx-pch",
-							"--enable-version-specific-runtime-libs",
-							 "--enable-interwork",
-                             "--with-newlib",
-							"--enable-obsolete",
-                             "--prefix=#{prefix}"
-#                             "--without-headers",
-      system 'make all'
-      system 'make install'
-	  system 'make install-info'
-#      FileUtils.ln_sf binutils.prefix/"#{target}", prefix/"#{target}"
-#      system 'make all-target-libgcc'
-#      system 'make install-target-libgcc'
-#      FileUtils.rm_rf share/"man"/"man7"
-#	  system 'make install-info'
+		system '../configure', "--target=#{target}", "--prefix=#{prefix}", *args
+		system 'make all'
+		system 'make install'
+		system 'make install-info'
     end
   end
+  def patches
+    # fixes something small
+    DATA
+  end
 end
+
+__END__
+diff --git a/gcc/config/arm/t-arm-elf b/gcc/config/arm/t-arm-elf
+index 25b7acb..19eaf52 100644
+--- a/gcc/config/arm/t-arm-elf
++++ b/gcc/config/arm/t-arm-elf
+@@ -39,9 +39,9 @@ MULTILIB_MATCHES     =
+ # Not quite true.  We can support hard-vfp calling in Thumb2, but how do we
+ # express that here?  Also, we really need architecture v5e or later
+ # (mcrr etc).
+-MULTILIB_OPTIONS       += mfloat-abi=hard
+-MULTILIB_DIRNAMES      += fpu
+-MULTILIB_EXCEPTIONS    += *mthumb/*mfloat-abi=hard*
++#MULTILIB_OPTIONS       += mfloat-abi=hard
++#MULTILIB_DIRNAMES      += fpu
++#MULTILIB_EXCEPTIONS    += *mthumb/*mfloat-abi=hard*
+ #MULTILIB_EXCEPTIONS    += *mcpu=fa526/*mfloat-abi=hard*
+ #MULTILIB_EXCEPTIONS    += *mcpu=fa626/*mfloat-abi=hard*
+ 
+@@ -53,12 +53,12 @@ MULTILIB_EXCEPTIONS    += *mthumb/*mfloat-abi=hard*
+ # MULTILIB_DIRNAMES    += le be
+ # MULTILIB_MATCHES     += mbig-endian=mbe mlittle-endian=mle
+ # 
+-# MULTILIB_OPTIONS    += mfloat-abi=hard/mfloat-abi=soft
+-# MULTILIB_DIRNAMES   += fpu soft
+-# MULTILIB_EXCEPTIONS += *mthumb/*mfloat-abi=hard*
++MULTILIB_OPTIONS    += mfloat-abi=hard/mfloat-abi=soft
++MULTILIB_DIRNAMES   += fpu soft
++MULTILIB_EXCEPTIONS += *mthumb/*mfloat-abi=hard*
+ # 
+-# MULTILIB_OPTIONS    += mno-thumb-interwork/mthumb-interwork
+-# MULTILIB_DIRNAMES   += normal interwork
++MULTILIB_OPTIONS    += mno-thumb-interwork/mthumb-interwork
++MULTILIB_DIRNAMES   += normal interwork
+ # 
+ # MULTILIB_OPTIONS    += fno-leading-underscore/fleading-underscore
+ # MULTILIB_DIRNAMES   += elf under
+

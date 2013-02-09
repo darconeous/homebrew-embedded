@@ -20,7 +20,9 @@ class AvrBinutils < Formula
             "--infodir=#{info}",
             "--mandir=#{man}",
             "--disable-werror",
-            "--disable-nls"]
+            "--disable-nls",
+			"--disable-install-libiberty",
+	]
 
     unless build.include? 'disable-libbfd'
       Dir.chdir "bfd" do
@@ -46,6 +48,7 @@ class AvrBinutils < Formula
 
     system "make"
     system "make install"
+	#FileUtils.rm_rf prefix/"lib/x86_64"
   end
 
   def patches

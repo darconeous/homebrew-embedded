@@ -6,7 +6,8 @@ class Arm2008q3Newlib < Formula
   sha1 '841edec33d19a9e549984982fb92445ee967e265'
 
   def install
-	onoe "This version of newlib is not directly installable. You probably want to install arm-2008q3-gcc instead."
+    onoe "This version of newlib is not directly installable. You probably want to install arm-2008q3-gcc instead."
+    raise ErrorDuringExecution
   end
 
   def patches

@@ -2,9 +2,13 @@ require 'formula'
 
 class ArmElfGcc < Formula
   homepage 'http://gcc.gnu.org'
-  url 'http://ftpmirror.gnu.org/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
-  mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
-  sha1 'a464ba0f26eef24c29bcd1e7489421117fb9ee35'
+  #url 'http://ftpmirror.gnu.org/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
+  #mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
+  #sha1 'a464ba0f26eef24c29bcd1e7489421117fb9ee35'
+  
+  url 'http://ftpmirror.gnu.org/gcc/gcc-4.3.2/gcc-4.3.2.tar.bz2'
+  mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.3.2/gcc-4.3.2.tar.bz2'
+  sha1 '787b566ad4f386a9896e2d5703e6ff5e7ccaca58'
 
   depends_on 'gmp'
   depends_on 'libmpc'
@@ -16,61 +20,82 @@ class ArmElfGcc < Formula
 
     ENV['CC'] = 'llvm-gcc-4.2'
     ENV['CXX'] = 'llvm-g++-4.2'
-    ENV['CPP'] = 'llvm-cpp-4.2'
     ENV['LD'] = 'llvm-gcc-4.2'
     ENV['PATH'] += ":#{binutils.prefix/"bin"}"
 	
 	target = 'arm-none-eabi'
-	target = 'arm-elf'
-
-	newlib = Formula.factory 'newlib'
-	dwnldr = newlib.downloader
-	dwnldr.fetch # fetch (uses cache!)
-	dwnldr.stage # unpack
-
-	system "ln","-s","#{Dir["newlib*"]}/libgloss"
-	system "ln","-s","#{Dir["newlib*"]}/newlib"
+#	target = 'arm-elf'
 	
+	gccbuildpath = buildpath
+	newlib = Formula.factory 'newlib'
+	newlib.brew do
+		ohai "Moving newlib into GCC build tree"
+		system "mv","newlib",gccbuildpath/"newlib"
+		ohai "Moving libgloss into GCC build tree"
+		system "mv","libgloss",gccbuildpath/"libgloss"
+	end
+
 	args = [
-		"--enable-obsolete",
-		'--disable-nls',
-		'--disable-wwerror',
-		'--disable-debug',
+		'--with-pkgversion=Sourcery G++ Lite 2008q3-66',
+		'--with-bugurl=https://support.codesourcery.com/GNUToolchain/',
 		
-		"--enable-languages=c",	
-
-        "--enable-fpu",
-		"--enable-biendian",
-		"--enable-interwork",
-		"--enable-multilib",
-		"--with-newlib",
-
-		"--enable-version-specific-runtime-libs",
+		"--target=#{target}",
+		"--prefix=#{prefix}",
         "--infodir=#{info}",
         "--mandir=#{man}",
 		
+		"--enable-obsolete",
+		'--disable-nls',
+		'--disable-werror',
+		'--disable-debug',
+		"--disable-shared",
+		
+		"--enable-languages=c",	
+
+		'--disable-decimal-float',
+		'--with-headers',
+		"--enable-interwork",
+		"--enable-multilib",
+		"--with-newlib",
+		"--disable-newlib-supplied-syscalls",
+
+		"--enable-newlib-io-long-long",
+		"--enable-version-specific-runtime-libs",	
+		"--enable-poison-system-directories",
+
+		"--enable-target-optspace",
+
 		"--without-included-gettext",
 		"--disable-install-libiberty",
+		"--disable-libunwind-exceptions",
+		"--disable-libffi",
+		'--disable-libmudflap',
+		'--disable-libgomp',
 		"--disable-__cxa_atexit",
 		"--disable-libgfortran",
 		"--disable-libssb",
-		"--disable-shared",
 		"--disable-libstdcxx-pch",
 
-		# !?!?
+		# Without this line, GCC won't be able to find the assembler.
 		"--with-as=#{binutils.prefix}/bin/#{target}-as",
+
+#		"--enable-newlib-io-reent-small",
+#		"--with-float=soft",
+#		"--with-abi=atpcs",		# Using old ABI for now.
+#		"--enable-float",
+#		"--enable-biendian",
 	]
 
 	mkdir 'build' do
-		system '../configure', "--target=#{target}", "--prefix=#{prefix}", *args
+		system '../configure', *args
 		system 'make all'
 		system 'make install'
 		system 'make install-info'
+		FileUtils.rm_rf prefix/"lib/x86_64"
     end
   end
   def patches
-    # fixes something small
-    DATA
+	'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/gcc-2008q3-66.patch.bz2'
   end
 end
 
@@ -99,14 +124,14 @@ index 25b7acb..19eaf52 100644
 -# MULTILIB_OPTIONS    += mfloat-abi=hard/mfloat-abi=soft
 -# MULTILIB_DIRNAMES   += fpu soft
 -# MULTILIB_EXCEPTIONS += *mthumb/*mfloat-abi=hard*
-+MULTILIB_OPTIONS    += mfloat-abi=hard/mfloat-abi=soft
-+MULTILIB_DIRNAMES   += fpu soft
-+MULTILIB_EXCEPTIONS += *mthumb/*mfloat-abi=hard*
++#MULTILIB_OPTIONS    += mfloat-abi=hard/mfloat-abi=soft
++#MULTILIB_DIRNAMES   += fpu soft
++#MULTILIB_EXCEPTIONS += *mthumb/*mfloat-abi=hard*
  # 
 -# MULTILIB_OPTIONS    += mno-thumb-interwork/mthumb-interwork
 -# MULTILIB_DIRNAMES   += normal interwork
-+MULTILIB_OPTIONS    += mno-thumb-interwork/mthumb-interwork
-+MULTILIB_DIRNAMES   += normal interwork
++#MULTILIB_OPTIONS    += mno-thumb-interwork/mthumb-interwork
++#MULTILIB_DIRNAMES   += normal interwork
  # 
  # MULTILIB_OPTIONS    += fno-leading-underscore/fleading-underscore
  # MULTILIB_DIRNAMES   += elf under

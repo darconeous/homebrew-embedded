@@ -3,7 +3,7 @@ require 'formula'
 class AvrLibc < Formula
   url 'http://download.savannah.gnu.org/releases/avr-libc/avr-libc-1.8.0.tar.bz2'
   homepage 'http://www.nongnu.org/avr-libc/'
-  md5 '54c71798f24c96bab206be098062344f'
+  sha256 '67a36bdb43a16f9b0512ba09584d4785f9bce6c057393f1020a5552e096e34ce'
 
   depends_on 'avr-gcc'
 
@@ -15,9 +15,10 @@ class AvrLibc < Formula
     ENV.delete 'CC'
     ENV.delete 'CXX'
 
-    avr_gcc = Formula.factory('larsimmisch/avr/avr-gcc')
+    avr_gcc = Formula.factory('avr-gcc')
     build = `./config.guess`.chomp
     system "./configure", "--build=#{build}", "--prefix=#{prefix}", "--host=avr"
+    system "make"
     system "make install"
     avr = File.join prefix, 'avr'
     # copy include and lib files where avr-gcc searches for them

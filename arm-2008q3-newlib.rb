@@ -11,6 +11,10 @@ class Arm2008q3Newlib < Formula
   end
 
   def patches
-	'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/newlib-2008q3-66.patch.bz2'
+	[
+		'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/newlib-2008q3-66.patch.bz2',
+		'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/newlib2.patch',
+		DATA
+	]
   end
 end

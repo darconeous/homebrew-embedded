@@ -6,9 +6,9 @@ class Arm2008q3Binutils < Formula
 	sha1 '0697d6f99ec0745567a5acfa7e4e31bcc9ef8698'
 
 	def install
-		ENV['CC'] = 'llvm-gcc-4.2'
-		ENV['CXX'] = 'llvm-g++-4.2'
-		ENV['LD'] = 'llvm-gcc-4.2'
+#		ENV['CC'] = 'llvm-gcc-4.2'
+#		ENV['CXX'] = 'llvm-g++-4.2'
+#		ENV['LD'] = 'llvm-gcc-4.2'
 
 		target = 'arm-none-eabi'
 

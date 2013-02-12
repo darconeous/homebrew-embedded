@@ -26,8 +26,8 @@ class Arm2008q3Gcc < Formula
 	newlib.brew do
 		ohai "Moving newlib into GCC build tree"
 		system "mv","newlib",gccbuildpath/"newlib"
-		ohai "Moving libgloss into GCC build tree"
-		system "mv","libgloss",gccbuildpath/"libgloss"
+#		ohai "Moving libgloss into GCC build tree"
+#		system "mv","libgloss",gccbuildpath/"libgloss"
 	end
 
 	args = [
@@ -84,15 +84,32 @@ class Arm2008q3Gcc < Formula
 	mkdir 'build' do
 		system '../configure', *args
 		system 'make all'
-		system 'make install'
-		system 'make install-info'
+		system 'make installdirs'
+		system 'make install-target'
+		system 'make install-host'
+
 		FileUtils.rm_rf prefix/"lib/x86_64"
     end
   end
   def patches
-	'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/gcc-2008q3-66.patch.bz2'
+	[
+		'https://gist.github.com/darconeous/2023cf3675bfa7abad8f/raw/gcc-2008q3-66.patch.bz2',
+		DATA
+	]
   end
 end
 
 __END__
+diff --git a/gcc/Makefile.in b/gcc/Makefile.in
+index 3518dbc..eaafadb 100644
+--- a/gcc/Makefile.in
++++ b/gcc/Makefile.in
+@@ -3934,7 +3934,7 @@ maintainer-clean:
+ # Install the driver last so that the window when things are
+ # broken is small.
+ install: install-common $(INSTALL_HEADERS) \
+-    install-cpp install-man install-info install-html install-pdf \
++    install-cpp install-man install-info \
+     install-@POSUB@ install-driver
 
+ # Handle cpp installation.

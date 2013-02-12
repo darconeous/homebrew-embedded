@@ -48,7 +48,9 @@ class AvrBinutils < Formula
 
     system "make"
     system "make install"
-	#FileUtils.rm_rf prefix/"lib/x86_64"
+
+    # Removes stupid libiberty.a
+    FileUtils.rm_rf prefix/"lib/x86_64"
   end
 
   def patches

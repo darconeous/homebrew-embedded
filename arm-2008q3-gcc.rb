@@ -22,7 +22,7 @@ class Arm2008q3Gcc < Formula
 	target = 'arm-none-eabi'
 	
 	gccbuildpath = buildpath
-	newlib = Formula.factory 'newlib'
+	newlib = Formula.factory 'arm-2008q3-newlib'
 	newlib.brew do
 		ohai "Moving newlib into GCC build tree"
 		system "mv","newlib",gccbuildpath/"newlib"

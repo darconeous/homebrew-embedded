@@ -14,9 +14,6 @@ class Arm2008q3Gcc < Formula
   def install
     binutils = Formula.factory 'arm-2008q3-binutils'
 
-    ENV['CC'] = 'llvm-gcc-4.2'
-    ENV['CXX'] = 'llvm-g++-4.2'
-    ENV['LD'] = 'llvm-gcc-4.2'
     ENV['PATH'] += ":#{binutils.prefix/"bin"}"
 	
 	target = 'arm-none-eabi'
@@ -79,6 +76,7 @@ class Arm2008q3Gcc < Formula
 #		"--with-abi=atpcs",		# Using old ABI for now.
 #		"--enable-float",
 #		"--enable-biendian",
+		"CFLAGS=-std=gnu89",
 	]
 
 	mkdir 'build' do

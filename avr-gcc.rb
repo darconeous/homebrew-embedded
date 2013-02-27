@@ -58,7 +58,7 @@ class AvrGcc < Formula
             "--datarootdir=#{share}",
             # ...and the binaries...
             "--bindir=#{bin}",
-			"--disable-install-libiberty",
+            "--disable-install-libiberty",
             # This shouldn't be necessary
             "--with-as=/usr/local/bin/avr-as"
            ]

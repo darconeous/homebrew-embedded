@@ -2,10 +2,10 @@ require 'formula'
 
 class Smcp < Formula
   homepage 'https://github.com/darconeous/smcp'
-  url 'https://github.com/darconeous/smcp.git', :tag => 'smcp-0.6.1-release'
+  url 'https://github.com/darconeous/smcp.git', :tag => 'smcp-0.6.2-release'
   head 'https://github.com/darconeous/smcp.git', :using => :git, :branch => 'master'
-  sha1 '93c8eb6c1952a126d437220814a8a8cb217d5efe'
-  version '0.6.1'
+  sha1 'b8717692b2fd9c5ad1e1024136d555cbdd08d97f'
+  version '0.6.2'
 
   if build.head?
     depends_on 'autoconf' => :build

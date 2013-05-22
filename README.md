@@ -13,8 +13,9 @@ Various Toolchains and Tools for Embedded Development
 
 	brew install avr-gcc
 	brew install avr-gdb
-	brew install avrdude
-	brew install dfu-programmer
+	brew install avrdude         # For general-purpose AVR programming.
+	brew install dfu-programmer  # For programming AVR USB chips.
+	brew install avarice         # For using GDB.
 
 ### 8052 (CC253x, CC243x, CC110x, etc.) ###
 

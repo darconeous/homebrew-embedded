@@ -59,8 +59,6 @@ class AvrGcc < Formula
             # ...and the binaries...
             "--bindir=#{bin}",
             "--disable-install-libiberty",
-            # This shouldn't be necessary
-            "--with-as=/usr/local/bin/avr-as"
            ]
 
     # The C compiler is always built, C++ can be disabled

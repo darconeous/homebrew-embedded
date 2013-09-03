@@ -13,10 +13,10 @@ class AvrGcc < Formula
   mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.1/gcc-4.8.1.tar.bz2'
   sha1 '4e655032cda30e1928fcc3f00962f4238b502169'
 
-  depends_on 'avr-binutils'
   depends_on 'gmp'
   depends_on 'libmpc'
   depends_on 'mpfr'
+  depends_on 'avr-binutils'
 
   def options
     [
@@ -28,9 +28,11 @@ class AvrGcc < Formula
   skip_clean :all
 
   def install
+
     gmp = Formula.factory 'gmp'
     mpfr = Formula.factory 'mpfr'
     libmpc = Formula.factory 'libmpc'
+    binutils = Formula.factory 'avr-binutils'
 
     # brew's build environment is in our way
     ENV.delete 'CFLAGS'
@@ -59,8 +61,7 @@ class AvrGcc < Formula
             # ...and the binaries...
             "--bindir=#{bin}",
             "--disable-install-libiberty",
-            # This shouldn't be necessary
-            "--with-as=/usr/local/bin/avr-as"
+            "--with-as=#{binutils.prefix}/bin/avr-as",
            ]
 
     # The C compiler is always built, C++ can be disabled

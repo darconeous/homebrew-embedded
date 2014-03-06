@@ -1,9 +1,12 @@
 require 'formula'
 
 class Newlib < Formula
-  url 'ftp://sources.redhat.com/pub/newlib/newlib-1.19.0.tar.gz'
   homepage 'http://sourceware.org/newlib/'
-  md5 '0966e19f03217db9e9076894b47e6601'
+  #url 'ftp://sources.redhat.com/pub/newlib/newlib-2.0.0.tar.gz'
+  #sha1 'ea6b5727162453284791869e905f39fb8fab8d3f'
+
+  url 'ftp://sources.redhat.com/pub/newlib/newlib-1.19.0.tar.gz'
+  sha1 'b2269d30ce7b93b7c714b90ef2f40221c2df0fcd'
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

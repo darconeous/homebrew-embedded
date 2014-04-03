@@ -7,10 +7,6 @@ class ArmNoneEabiGcc < Formula
   mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2'
   sha1 '810fb70bd721e1d9f446b6503afe0a9088b62986'
 
-#  url 'http://ftpmirror.gnu.org/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
-#  mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.7.2/gcc-4.7.2.tar.bz2'
-#  sha1 'a464ba0f26eef24c29bcd1e7489421117fb9ee35'
-
   depends_on 'gmp'
   depends_on 'libmpc'
   depends_on 'mpfr'
@@ -49,6 +45,7 @@ class ArmNoneEabiGcc < Formula
           "--disable-libssb",
           '--disable-nls',
           '--with-system-zlib',
+          '--with-headers',
 
 
 #          '--disable-tls',
@@ -62,7 +59,6 @@ class ArmNoneEabiGcc < Formula
 #          "--with-float=soft",
 
           #'--disable-decimal-float',
-          #'--with-headers',
           #"--disable-newlib-supplied-syscalls",
 
           #"--enable-newlib-io-long-long",
@@ -83,7 +79,7 @@ class ArmNoneEabiGcc < Formula
           #"--disable-libstdcxx-pch",
 
           # Without this line, GCC won't be able to find the assembler.
-          #"--with-as=#{binutils.prefix}/bin/#{target}-as",
+          "--with-as=#{binutils.prefix}/bin/#{target}-as",
 
 #		"--enable-newlib-io-reent-small",
 #		"--with-float=soft",

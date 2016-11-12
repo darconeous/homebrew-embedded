@@ -6,7 +6,7 @@ class Newlib < Formula
   #sha1 'ea6b5727162453284791869e905f39fb8fab8d3f'
 
   url 'ftp://sources.redhat.com/pub/newlib/newlib-1.19.0.tar.gz'
-  sha1 'b2269d30ce7b93b7c714b90ef2f40221c2df0fcd'
+  sha256 '4f43807236b2274c220881ca69f7dc6aecc52f14bb32a6f03404d30780c25007'
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

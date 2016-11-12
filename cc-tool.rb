@@ -3,7 +3,7 @@ require 'formula'
 class CcTool < Formula
   homepage 'http://cctool.sourceforge.net/'
   url 'http://downloads.sourceforge.net/project/cctool/cc-tool-0.26-src.tgz'
-  sha256 'bdac339c0208c4eba33f9b129b545d97d1a6b3e393f0d94ea9f0d646712fc3dd'
+  sha256 'bb07019bf007123824c624d5d940bc0ac24184ff3b5266b04b60d64f07d40060'
 
   depends_on 'libusb'
   depends_on 'boost'

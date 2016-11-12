@@ -4,7 +4,7 @@ class Sdcc < Formula
   homepage 'http://sdcc.sourceforge.net/'
   head 'https://sdcc.svn.sourceforge.net/svnroot/sdcc/trunk/sdcc/'
   url 'http://downloads.sourceforge.net/project/sdcc/sdcc/3.1.0/sdcc-src-3.1.0.tar.bz2'
-  sha1 '4806c79bd1572c3be8e8a9ee68f94c31d251d530'
+  sha256 'd9dc4b8d4fa25386ad065133b055d8e62714944c6db07b063ad544a38252a08f'
 
   depends_on 'gputils'
   depends_on 'boost'

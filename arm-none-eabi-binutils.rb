@@ -4,7 +4,8 @@ class ArmNoneEabiBinutils < Formula
     homepage 'http://gcc.gnu.org'
 
     url 'http://ftp.gnu.org/gnu/binutils/binutils-2.23.tar.gz'
-    sha1 '470c388c97ac8d216de33fa397d7be9f96c3fe04'
+    #sha1 '470c388c97ac8d216de33fa397d7be9f96c3fe04'
+    sha256 '7909a08eabdbaac0f7a22e9ede82a66ba70acd50629b045e705af864eef10b65'
 #    url 'http://ftp.gnu.org/gnu/binutils/binutils-2.22.tar.gz'
 #    sha1 '0e16a7492c0a194962ecd33fc80fa53ccfec5149'
 

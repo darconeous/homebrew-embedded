@@ -5,7 +5,8 @@ class ArmNoneEabiGcc < Formula
 
   url 'http://ftpmirror.gnu.org/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2'
   mirror 'http://ftp.gnu.org/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.bz2'
-  sha1 '810fb70bd721e1d9f446b6503afe0a9088b62986'
+  #sha1 '810fb70bd721e1d9f446b6503afe0a9088b62986'
+  sha256 '09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8'
 
   depends_on 'gmp'
   depends_on 'libmpc'

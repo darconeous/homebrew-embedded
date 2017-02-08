@@ -4,7 +4,7 @@ class Smcp < Formula
   homepage 'https://github.com/darconeous/smcp'
   url 'https://github.com/darconeous/smcp.git', :tag => '0.6.5-release'
   head 'https://github.com/darconeous/smcp.git', :using => :git, :branch => 'master'
-  sha1 '3ee78de83293b43aa2a7c7396cef60d82929f98e'
+  #sha1 '3ee78de83293b43aa2a7c7396cef60d82929f98e'
   version '0.6.5'
 
   if build.head?

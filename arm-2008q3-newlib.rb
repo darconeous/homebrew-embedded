@@ -3,7 +3,8 @@ require 'formula'
 class Arm2008q3Newlib < Formula
   url 'ftp://sources.redhat.com/pub/newlib/newlib-1.16.0.tar.gz'
   homepage 'http://sourceware.org/newlib/'
-  sha1 '841edec33d19a9e549984982fb92445ee967e265'
+  #sha1 '841edec33d19a9e549984982fb92445ee967e265'
+  sha256 'db426394965c48c1d29023e1cc6d965ea6b9a9035d8a849be2750ca4659a3d07'
 
   def install
     onoe "This version of newlib is not directly installable. You probably want to install arm-2008q3-gcc instead."
